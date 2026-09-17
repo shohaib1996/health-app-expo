@@ -15,7 +15,7 @@ import { checkinsRepository } from '@/features/checkins/checkinsRepository';
 import { WelcomeBack } from '@/features/checkins/WelcomeBack';
 import { classifyGap, daysBetween, type GapKind } from '@/features/checkins/welcomeBackRules';
 import { OnboardingFlow } from '@/features/onboarding/OnboardingFlow';
-import { pushPendingCheckIns } from '@/features/sync/syncService';
+import { pullServerCheckIns, pushPendingCheckIns } from '@/features/sync/syncService';
 import { todayLocalDate } from '@/lib/localDate';
 import { persistor, store } from '@/store';
 import { useAppSelector } from '@/store/hooks';
@@ -40,14 +40,19 @@ function AppShell() {
   // a gap check during onboarding itself would be meaningless.
   useEffect(() => {
     if (!fontsLoaded || blockedUnderAge || !onboardingCompleted) return;
-    void checkinsRepository.getMostRecentDate().then((lastDate) => {
+    void (async () => {
+      // Pull first, so a fresh install/second device recovers server
+      // history before the gap check runs against it — otherwise a
+      // user with real history would briefly see 'nothing logged'.
+      await pullServerCheckIns();
+      const lastDate = await checkinsRepository.getMostRecentDate();
       const days = lastDate ? daysBetween(lastDate, todayLocalDate()) : null;
       setGap({ kind: classifyGap(days), days: days ?? 0 });
-    });
-    // Best-effort catch-up sync on cold start, in addition to the push
-    // that fires after every save — covers rows that failed to push
-    // earlier (offline, server down) and never got retried.
-    void pushPendingCheckIns();
+      // Best-effort catch-up push, in addition to the one that fires
+      // after every save — covers rows that failed to push earlier
+      // (offline, server down) and were never retried.
+      void pushPendingCheckIns();
+    })();
   }, [fontsLoaded, blockedUnderAge, onboardingCompleted]);
 
   if (!fontsLoaded) return null;

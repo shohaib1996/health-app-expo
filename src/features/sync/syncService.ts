@@ -1,9 +1,17 @@
+import { checkinsApi } from '@/features/checkins/checkinsApi';
 import { checkinsRepository } from '@/features/checkins/checkinsRepository';
+import { addDaysToLocalDate, todayLocalDate } from '@/lib/localDate';
 
 import { syncApi } from './syncApi';
 import type { SyncCheckInPush } from './syncTypes';
 
 let pushInFlight: Promise<void> | null = null;
+let pullInFlight: Promise<void> | null = null;
+
+/** How far back to pull on recovery. Generous enough to cover a
+ * finished experiment's before/during window; not unbounded, since
+ * this is a full re-fetch, not a real delta (see doPull's note). */
+const PULL_WINDOW_DAYS = 120;
 
 /**
  * Best-effort push of every locally pending check-in. Never blocks a
@@ -47,5 +55,49 @@ async function doPush(): Promise<void> {
   } catch {
     // Network down, server unreachable, whatever — the app never
     // blocks on this (§1.1). Rows stay 'pending' and retry next time.
+  }
+}
+
+/**
+ * Recovers server-held check-ins onto this device — the path that
+ * makes a reinstall or a second sign-in on a fresh phone not lose
+ * history. Not a real delta pull: `GET /sync/pull` only returns a
+ * change log (entity ids + timestamps, no content), so turning that
+ * into rows would mean a second round-trip per changed entity anyway.
+ * A full re-fetch of the last `PULL_WINDOW_DAYS` via `GET /checkins`
+ * is simpler, still correct (LWW merge, never overwrites a newer
+ * local row — see mergeFromServer), and cheap at this data volume.
+ * Single-flight and best-effort, same as the push side.
+ */
+export function pullServerCheckIns(): Promise<void> {
+  pullInFlight ??= doPull().finally(() => {
+    pullInFlight = null;
+  });
+  return pullInFlight;
+}
+
+async function doPull(): Promise<void> {
+  try {
+    const today = todayLocalDate();
+    const from = addDaysToLocalDate(today, -PULL_WINDOW_DAYS);
+    const serverCheckIns = await checkinsApi.listRange(from, today);
+
+    for (const row of serverCheckIns) {
+      await checkinsRepository.mergeFromServer({
+        clientId: row.clientId,
+        localDate: row.localDate,
+        mood: row.mood,
+        energy: row.energy,
+        note: row.note,
+        voiceUri: row.voiceUri,
+        tagKeys: row.tagKeys,
+        source: row.source,
+        createdAt: row.createdAt,
+        updatedAt: row.updatedAt,
+      });
+    }
+  } catch {
+    // Same rationale as doPush — never blocks the app, just tries
+    // again on the next cold start.
   }
 }

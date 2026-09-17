@@ -167,4 +167,72 @@ export const checkinsRepository = {
       ...clientIds,
     );
   },
+
+  /**
+   * Merges one server-pulled row into local SQLite — backs pull-sync,
+   * the recovery path for a fresh install/second device. Matched on
+   * `local_date`, not `client_id`: two devices that both created a
+   * local row for the same day before ever syncing would otherwise
+   * violate the unique-per-day index. Last-write-wins on `updated_at`
+   * (single rule, per §8's deferred-fix note): a newer or missing
+   * local row adopts the server's version wholesale, including its
+   * client_id; a newer-or-equal local row is left untouched (it's
+   * already 'pending' and will push its own version).
+   */
+  async mergeFromServer(row: {
+    clientId: string;
+    localDate: string;
+    mood: number;
+    energy: number | null;
+    note: string | null;
+    voiceUri: string | null;
+    tagKeys: string[];
+    source: string;
+    createdAt: string;
+    updatedAt: string;
+  }): Promise<void> {
+    const database = await db();
+    const existing = await database.getFirstAsync<CheckInRow>(
+      'SELECT * FROM check_ins WHERE local_date = ?',
+      row.localDate,
+    );
+
+    if (existing && existing.updated_at >= row.updatedAt) return;
+
+    const tagKeysJson = JSON.stringify(row.tagKeys.slice(0, 3));
+
+    if (existing) {
+      await database.runAsync(
+        `UPDATE check_ins SET
+           client_id = ?, mood = ?, energy = ?, note = ?, voice_uri = ?, tag_keys = ?,
+           source = ?, updated_at = ?, sync_state = 'synced', deleted_at = NULL
+         WHERE local_date = ?`,
+        row.clientId,
+        row.mood,
+        row.energy,
+        row.note,
+        row.voiceUri,
+        tagKeysJson,
+        row.source,
+        row.updatedAt,
+        row.localDate,
+      );
+    } else {
+      await database.runAsync(
+        `INSERT INTO check_ins
+           (client_id, local_date, mood, energy, note, voice_uri, tag_keys, source, created_at, updated_at, sync_state, deleted_at)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'synced', NULL)`,
+        row.clientId,
+        row.localDate,
+        row.mood,
+        row.energy,
+        row.note,
+        row.voiceUri,
+        tagKeysJson,
+        row.source,
+        row.createdAt,
+        row.updatedAt,
+      );
+    }
+  },
 };

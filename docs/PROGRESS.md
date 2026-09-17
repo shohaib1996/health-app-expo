@@ -107,7 +107,12 @@ Android-first app; Android export is the real smoke test.
   matches the backend's own deferred write path for that field
 - Soft-deleted check-ins never propagate to the server — `SyncCheckInPush`
   has no delete operation yet, only upsert; deletions stay local-only
-- No delta pull (`GET /sync/pull`) — only push is wired. A second device
-  signing into the same account wouldn't currently pull existing history
-  back down; only local SQLite writes and this device's own future
-  syncs would populate it
+- Pull-sync (`pullServerCheckIns`, once on cold start before push) does a
+  full re-fetch of the last 120 days via `GET /checkins?from=&to=`, not a
+  real delta against `GET /sync/pull`'s change log — that endpoint only
+  returns entity ids + timestamps, not content, so consuming it would
+  mean a second round-trip per changed row anyway. Correct (LWW merge on
+  `updated_at`, matched on `local_date`) and cheap at this data volume,
+  but re-fetches everything every cold start rather than only what
+  changed since a cursor. Switch to real delta pull if the check-in
+  volume ever makes that wasteful.
