@@ -27,7 +27,11 @@ interface HeroNumberProps {
  */
 export function HeroNumber({ value, unit, likelyRange, role, size = 'hero' }: HeroNumberProps) {
   return (
-    <View>
+    // Grouped into one accessible element — otherwise a screen reader
+    // announces "+38", then a pause, then "minutes of sleep", then
+    // another pause, then the likely-range line, as three unrelated
+    // fragments instead of one statement (G-9).
+    <View accessible accessibilityLabel={`${value} ${unit}. ${likelyRange}`}>
       <Text
         className={cn(
           'font-heading tabular-nums',
