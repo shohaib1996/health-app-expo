@@ -69,6 +69,7 @@ function AppShell() {
         <Stack.Screen name="history/day" options={{ presentation: 'modal' }} />
         <Stack.Screen name="memory/index" options={{ presentation: 'modal' }} />
         <Stack.Screen name="memory/edit" />
+        <Stack.Screen name="account/index" options={{ presentation: 'modal' }} />
       </Stack>
     </View>
   );

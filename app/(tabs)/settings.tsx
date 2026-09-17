@@ -19,7 +19,7 @@ export default function SettingsScreen() {
           <ListRow label="Privacy" onPress={() => router.push('/privacy')} />
           <ListRow label="Export data" onPress={() => router.push('/privacy/export')} />
           <ListRow label="Subscription" disabled />
-          <ListRow label="Account" disabled />
+          <ListRow label="Account" onPress={() => router.push('/account')} />
           <ListRow label="Help and resources" onPress={() => router.push('/safety/resources')} />
           <ListRow label="About" disabled />
         </View>
