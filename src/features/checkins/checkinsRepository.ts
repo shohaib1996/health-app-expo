@@ -132,6 +132,16 @@ export const checkinsRepository = {
     return row?.count ?? 0;
   },
 
+  /** Most recent logged date, or null if nothing has ever been logged
+   * — backs S-70/S-71's gap detection on app open. */
+  async getMostRecentDate(): Promise<string | null> {
+    const database = await db();
+    const row = await database.getFirstAsync<{ local_date: string }>(
+      'SELECT local_date FROM check_ins WHERE deleted_at IS NULL ORDER BY local_date DESC LIMIT 1',
+    );
+    return row?.local_date ?? null;
+  },
+
   async listPendingSync(): Promise<CheckIn[]> {
     const database = await db();
     const rows = await database.getAllAsync<CheckInRow>("SELECT * FROM check_ins WHERE sync_state = 'pending'");

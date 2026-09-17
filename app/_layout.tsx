@@ -4,14 +4,18 @@ import { Inter_400Regular, Inter_500Medium, useFonts } from '@expo-google-fonts/
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { View } from 'react-native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
 import { colors } from '@/design/tokens';
 import { bootstrapAuth } from '@/features/auth/authSlice';
+import { checkinsRepository } from '@/features/checkins/checkinsRepository';
+import { WelcomeBack } from '@/features/checkins/WelcomeBack';
+import { classifyGap, daysBetween, type GapKind } from '@/features/checkins/welcomeBackRules';
 import { OnboardingFlow } from '@/features/onboarding/OnboardingFlow';
+import { todayLocalDate } from '@/lib/localDate';
 import { persistor, store } from '@/store';
 import { useAppSelector } from '@/store/hooks';
 import { wireApiClient } from '@/store/wireApiClient';
@@ -24,10 +28,23 @@ function AppShell() {
   const [fontsLoaded] = useFonts({ Inter_400Regular, Inter_500Medium });
   const onboardingCompleted = useAppSelector((s) => s.onboarding.completed);
   const blockedUnderAge = useAppSelector((s) => s.onboarding.blockedUnderAge);
+  const [gap, setGap] = useState<{ kind: GapKind; days: number } | null>(null);
+  const [gapDismissed, setGapDismissed] = useState(false);
 
   useEffect(() => {
     if (fontsLoaded) SplashScreen.hideAsync();
   }, [fontsLoaded]);
+
+  // Evaluated once per cold start, only once onboarding is behind us —
+  // a gap check during onboarding itself would be meaningless.
+  useEffect(() => {
+    if (!fontsLoaded || blockedUnderAge || !onboardingCompleted) return;
+    void checkinsRepository.getMostRecentDate().then((lastDate) => {
+      const days = lastDate ? daysBetween(lastDate, todayLocalDate()) : null;
+      setGap({ kind: classifyGap(days), days: days ?? 0 });
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fontsLoaded, blockedUnderAge, onboardingCompleted]);
 
   if (!fontsLoaded) return null;
 
@@ -38,6 +55,18 @@ function AppShell() {
       <View className="flex-1 bg-bg">
         <StatusBar style="light" />
         <OnboardingFlow />
+      </View>
+    );
+  }
+
+  // S-70/S-71 — an interrupt over the tabs shell, shown at most once
+  // per cold start (gapDismissed), same non-route pattern as
+  // onboarding: there's nothing to navigate back into.
+  if (gap && gap.kind !== 'none' && !gapDismissed) {
+    return (
+      <View className="flex-1 bg-bg">
+        <StatusBar style="light" />
+        <WelcomeBack kind={gap.kind} daysSince={gap.days} onContinue={() => setGapDismissed(true)} />
       </View>
     );
   }
