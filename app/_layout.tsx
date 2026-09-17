@@ -1,3 +1,5 @@
+import '@/design/global.css';
+
 import { Inter_400Regular, Inter_500Medium, useFonts } from '@expo-google-fonts/inter';
 import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -5,7 +7,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 import { View } from 'react-native';
 
-import { colors } from '@/design';
+import { colors } from '@/design/tokens';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -19,7 +21,7 @@ export default function RootLayout() {
   if (!fontsLoaded) return null;
 
   return (
-    <View style={{ flex: 1, backgroundColor: colors.bg }}>
+    <View className="flex-1 bg-bg">
       <StatusBar style="light" />
       <Stack
         screenOptions={{
