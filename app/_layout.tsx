@@ -73,6 +73,9 @@ function AppShell() {
         <Stack.Screen name="patterns/index" options={{ presentation: 'modal' }} />
         <Stack.Screen name="pattern/[id]" options={{ presentation: 'modal' }} />
         <Stack.Screen name="pattern/not-enough-data" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="about/index" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="health/index" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="reminders/index" options={{ presentation: 'modal' }} />
       </Stack>
     </View>
   );

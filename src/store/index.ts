@@ -21,7 +21,7 @@ import { rootReducer } from './rootReducer';
 const persistConfig = {
   key: 'hunch-root',
   storage: AsyncStorage,
-  whitelist: ['auth', 'onboarding'],
+  whitelist: ['auth', 'onboarding', 'settings'],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);

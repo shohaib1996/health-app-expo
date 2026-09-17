@@ -14,14 +14,14 @@ export default function SettingsScreen() {
         <Text className="font-heading text-h3 text-text">Settings</Text>
 
         <View className="mt-6">
-          <ListRow label="Health connections" disabled />
-          <ListRow label="Reminders" disabled />
+          <ListRow label="Health connections" onPress={() => router.push('/health')} />
+          <ListRow label="Reminders" onPress={() => router.push('/reminders')} />
           <ListRow label="Privacy" onPress={() => router.push('/privacy')} />
           <ListRow label="Export data" onPress={() => router.push('/privacy/export')} />
           <ListRow label="Subscription" disabled />
           <ListRow label="Account" onPress={() => router.push('/account')} />
           <ListRow label="Help and resources" onPress={() => router.push('/safety/resources')} />
-          <ListRow label="About" disabled />
+          <ListRow label="About" onPress={() => router.push('/about')} />
         </View>
       </ScrollView>
     </SafeAreaView>
