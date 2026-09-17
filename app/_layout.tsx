@@ -35,7 +35,9 @@ function AppShell() {
           headerShown: false,
           contentStyle: { backgroundColor: colors.bg },
         }}
-      />
+      >
+        <Stack.Screen name="checkin/index" options={{ presentation: 'modal' }} />
+      </Stack>
     </View>
   );
 }
