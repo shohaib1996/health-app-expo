@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
+import { pushPendingCheckIns } from '@/features/sync/syncService';
 import { todayLocalDate } from '@/lib/localDate';
 
 import { checkinsRepository } from './checkinsRepository';
@@ -53,6 +54,9 @@ export function useCheckInForDate(targetDate: string): UseCheckInForDateResult {
         const saved = await checkinsRepository.upsert({ ...draft, localDate: targetDate }, today);
         setCheckIn(saved);
         setError(null);
+        // Fire-and-forget — never let a sync failure block the save
+        // the user is waiting on (§1.1, the server never blocks).
+        void pushPendingCheckIns();
         return saved;
       } catch (e) {
         setError(e instanceof Error ? e.message : 'Could not save the check-in.');

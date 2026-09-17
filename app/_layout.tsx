@@ -15,6 +15,7 @@ import { checkinsRepository } from '@/features/checkins/checkinsRepository';
 import { WelcomeBack } from '@/features/checkins/WelcomeBack';
 import { classifyGap, daysBetween, type GapKind } from '@/features/checkins/welcomeBackRules';
 import { OnboardingFlow } from '@/features/onboarding/OnboardingFlow';
+import { pushPendingCheckIns } from '@/features/sync/syncService';
 import { todayLocalDate } from '@/lib/localDate';
 import { persistor, store } from '@/store';
 import { useAppSelector } from '@/store/hooks';
@@ -43,6 +44,10 @@ function AppShell() {
       const days = lastDate ? daysBetween(lastDate, todayLocalDate()) : null;
       setGap({ kind: classifyGap(days), days: days ?? 0 });
     });
+    // Best-effort catch-up sync on cold start, in addition to the push
+    // that fires after every save — covers rows that failed to push
+    // earlier (offline, server down) and never got retried.
+    void pushPendingCheckIns();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fontsLoaded, blockedUnderAge, onboardingCompleted]);
 

@@ -142,9 +142,26 @@ export const checkinsRepository = {
     return row?.local_date ?? null;
   },
 
+  /** Excludes soft-deleted rows — SyncCheckInPush (backend
+   * sync/schemas.py) has no delete op, only upsert, so a deleted row
+   * has nothing safe to push yet. It stays 'pending' locally as a
+   * known gap (no delete propagation to the server) rather than
+   * risking resurrecting it server-side. */
   async listPendingSync(): Promise<CheckIn[]> {
     const database = await db();
-    const rows = await database.getAllAsync<CheckInRow>("SELECT * FROM check_ins WHERE sync_state = 'pending'");
+    const rows = await database.getAllAsync<CheckInRow>(
+      "SELECT * FROM check_ins WHERE sync_state = 'pending' AND deleted_at IS NULL",
+    );
     return rows.map(rowToCheckIn);
+  },
+
+  async markSynced(clientIds: string[]): Promise<void> {
+    if (clientIds.length === 0) return;
+    const database = await db();
+    const placeholders = clientIds.map(() => '?').join(', ');
+    await database.runAsync(
+      `UPDATE check_ins SET sync_state = 'synced' WHERE client_id IN (${placeholders})`,
+      ...clientIds,
+    );
   },
 };
