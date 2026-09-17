@@ -22,3 +22,17 @@ export function assertWithinBacklogWindow(targetDate: string, today: string): vo
 export function resolveSource(targetDate: string, today: string): 'manual' | 'backlog' {
   return targetDate === today ? 'manual' : 'backlog';
 }
+
+/**
+ * The last-write-wins decision behind pull-sync's merge (backend §8's
+ * single-LWW-rule note, applied client-side): true means the
+ * server's row should overwrite what's local. `localUpdatedAt` is
+ * null when nothing exists locally yet for that day — always adopt
+ * in that case. Otherwise the server only wins on a strictly later
+ * timestamp; a tie keeps the local row, since it's already the one
+ * about to push its own version back up.
+ */
+export function shouldAdoptServerRow(localUpdatedAt: string | null, serverUpdatedAt: string): boolean {
+  if (localUpdatedAt === null) return true;
+  return serverUpdatedAt > localUpdatedAt;
+}
