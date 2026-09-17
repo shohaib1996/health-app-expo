@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - name: Type check
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npx eslint . --max-warnings=0
+
+      - name: Format check
+        run: npx prettier --check .
+
+      - name: Unit tests
+        run: npx jest --ci
+
+      - name: Android bundle (confirms Metro/dependency resolution)
+        env:
+          EXPO_UNSTABLE_TREE_SHAKING: '1'
+          EXPO_UNSTABLE_METRO_OPTIMIZE_GRAPH: '1'
+        run: npx expo export --platform android --output-dir /tmp/ci-export
