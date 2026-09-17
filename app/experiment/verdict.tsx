@@ -80,7 +80,20 @@ export default function VerdictScreen() {
       <View className="gap-2 px-6 pb-4">
         <Button
           label={verdict.verdictType === 'worked' ? 'Keep doing this' : "What's next"}
-          onPress={() => router.push('/library')}
+          onPress={() => {
+            if (verdict.verdictType === 'worked') {
+              router.push({
+                pathname: '/experiment/install-habit',
+                params: {
+                  protocolKey: verdict.protocolKey,
+                  protocolName: verdict.protocolName,
+                  experimentId: verdict.id,
+                },
+              });
+            } else {
+              router.push('/library');
+            }
+          }}
           block
         />
       </View>
