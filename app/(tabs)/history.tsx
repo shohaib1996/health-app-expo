@@ -1,7 +1,9 @@
 import { useState } from 'react';
 import { Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { router } from 'expo-router';
 
+import { Button } from '@/components/ui';
 import { useMonthHistory } from '@/features/checkins/useMonthHistory';
 import { moodNeutralStep } from '@/features/checkins/moodColor';
 
@@ -72,6 +74,13 @@ export default function HistoryScreen() {
             Nothing logged yet. Tonight's check-in starts this calendar.
           </Text>
         )}
+
+        <Button
+          label="Past experiments"
+          variant="ghost"
+          onPress={() => router.push('/history/experiments')}
+          className="mt-6 self-start px-0"
+        />
       </View>
     </SafeAreaView>
   );
