@@ -4,7 +4,7 @@ import type { SQLiteDatabase } from 'expo-sqlite';
 import { getDb } from '@/db/client';
 import { runMigrations } from '@/db/migrate';
 
-import { assertWithinBacklogWindow, resolveSource } from './checkinsRules';
+import { assertWithinBacklogWindow, resolveSource, shouldAdoptServerRow } from './checkinsRules';
 import type { CheckIn, CheckInDraft, CheckInSource } from './checkinsTypes';
 
 export { BACKLOG_WINDOW_DAYS, BacklogWindowError } from './checkinsRules';
@@ -197,7 +197,7 @@ export const checkinsRepository = {
       row.localDate,
     );
 
-    if (existing && existing.updated_at >= row.updatedAt) return;
+    if (!shouldAdoptServerRow(existing?.updated_at ?? null, row.updatedAt)) return;
 
     const tagKeysJson = JSON.stringify(row.tagKeys.slice(0, 3));
 
