@@ -3,7 +3,7 @@ import type { SQLiteDatabase } from 'expo-sqlite';
 import { up as up001 } from './migrations/001_init';
 
 /** Ordered list — append, never reorder or edit a past entry once shipped. */
-const MIGRATIONS: Array<(db: SQLiteDatabase) => Promise<void>> = [up001];
+const MIGRATIONS: ((db: SQLiteDatabase) => Promise<void>)[] = [up001];
 
 let migrated = false;
 

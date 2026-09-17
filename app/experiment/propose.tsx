@@ -40,7 +40,7 @@ export default function ProposeExperimentScreen() {
 
   useEffect(() => {
     void fetchProposal([]);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, []);
 
   const handleSomethingElse = () => {

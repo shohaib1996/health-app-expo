@@ -15,7 +15,7 @@ const MOOD_LABELS = ['Very low', 'Low', 'Okay', 'Good', 'Very good'];
  * Delete requires confirmation. */
 export default function DayDetailScreen() {
   const { date } = useLocalSearchParams<{ date: string }>();
-  const { checkIn, loading, refresh } = useCheckInForDate(date);
+  const { checkIn, loading } = useCheckInForDate(date);
   const [deleting, setDeleting] = useState(false);
 
   const tagLabels = (checkIn?.tagKeys ?? []).map(

@@ -1,4 +1,4 @@
-import axios, { AxiosError, type InternalAxiosRequestConfig } from 'axios';
+import { create, type AxiosError, type InternalAxiosRequestConfig } from 'axios';
 
 import { API_BASE_URL } from '@/lib/env';
 import { tokenStorage } from '@/lib/tokenStorage';
@@ -8,8 +8,13 @@ import { tokenStorage } from '@/lib/tokenStorage';
  * AI proxy, never a blocker (§1.1) — callers are expected to catch
  * network failures themselves and fall back to local (SQLite) state;
  * this client does not retry on network errors, only on a single 401.
+ *
+ * Imports `create` by name rather than `axios.create` — axios ships
+ * both a default export and named exports for the same members, and
+ * using the default risks a bundler/interop mismatch lint flags as
+ * ambiguous. The named import is unambiguous either way.
  */
-export const apiClient = axios.create({
+export const apiClient = create({
   baseURL: API_BASE_URL,
   timeout: 15000,
 });

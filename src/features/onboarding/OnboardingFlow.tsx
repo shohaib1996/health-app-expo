@@ -12,7 +12,7 @@ import { blockUnderAge, completeOnboarding } from './onboardingSlice';
 
 type Step = 'welcome' | 'whatThisIsnt' | 'ageGate' | 'ageBlocked' | 'focusAreas' | 'health' | 'reminder';
 
-const FOCUS_OPTIONS: Array<{ value: FocusArea; label: string }> = [
+const FOCUS_OPTIONS: { value: FocusArea; label: string }[] = [
   { value: 'sleep', label: 'Why I sleep badly' },
   { value: 'movement', label: 'Why my energy crashes' },
   { value: 'mood', label: 'What affects my mood' },

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui';
 import { useMemory } from '@/features/memory/useMemory';
 import type { MemoryCategory, MemoryEntry } from '@/features/memory/memoryTypes';
 
-const GROUPS: Array<{ category: MemoryCategory; title: string }> = [
+const GROUPS: { category: MemoryCategory; title: string }[] = [
   { category: 'told_you', title: 'What you told me' },
   { category: 'seen', title: "What I've seen" },
   { category: 'worked', title: "What's worked" },

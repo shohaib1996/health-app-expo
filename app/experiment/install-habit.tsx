@@ -8,7 +8,7 @@ import { Button, Chip } from '@/components/ui';
 import { habitsApi } from '@/features/habits/habitsApi';
 import type { MaintenanceFrequency } from '@/features/habits/habitsTypes';
 
-const FREQUENCIES: Array<{ value: MaintenanceFrequency; label: string }> = [
+const FREQUENCIES: { value: MaintenanceFrequency; label: string }[] = [
   { value: 'weekly', label: 'Weekly' },
   { value: 'monthly', label: 'Monthly' },
   { value: 'none', label: 'Not at all' },

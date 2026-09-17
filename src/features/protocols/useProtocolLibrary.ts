@@ -4,7 +4,7 @@ import { protocolsApi } from './protocolsApi';
 import type { Protocol } from './protocolsTypes';
 
 interface UseProtocolLibraryResult {
-  groups: Array<{ domain: string; protocols: Protocol[] }>;
+  groups: { domain: string; protocols: Protocol[] }[];
   loading: boolean;
   error: string | null;
   refresh: () => Promise<void>;
@@ -15,7 +15,7 @@ interface UseProtocolLibraryResult {
  * library is a shared catalog the backend seeds from YAML (§5.7), not
  * per-user device data. */
 export function useProtocolLibrary(): UseProtocolLibraryResult {
-  const [groups, setGroups] = useState<Array<{ domain: string; protocols: Protocol[] }>>([]);
+  const [groups, setGroups] = useState<{ domain: string; protocols: Protocol[] }[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 

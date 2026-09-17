@@ -68,7 +68,8 @@
     "web": "cross-env EXPO_UNSTABLE_TREE_SHAKING=1 EXPO_UNSTABLE_METRO_OPTIMIZE_GRAPH=1 expo start --web",
     "test": "jest",
     "typecheck": "tsc --noEmit",
-    "export": "cross-env EXPO_UNSTABLE_TREE_SHAKING=1 EXPO_UNSTABLE_METRO_OPTIMIZE_GRAPH=1 expo export"
+    "export": "cross-env EXPO_UNSTABLE_TREE_SHAKING=1 EXPO_UNSTABLE_METRO_OPTIMIZE_GRAPH=1 expo export",
+    "lint": "eslint ."
   },
   "private": true,
   "jest": {
