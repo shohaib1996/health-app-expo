@@ -62,6 +62,9 @@ function AppShell() {
           name="safety/interstitial"
           options={{ presentation: 'fullScreenModal', gestureEnabled: false, animation: 'fade' }}
         />
+        <Stack.Screen name="privacy/index" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="privacy/export" />
+        <Stack.Screen name="privacy/delete" />
       </Stack>
     </View>
   );

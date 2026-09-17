@@ -16,8 +16,8 @@ export default function SettingsScreen() {
         <View className="mt-6">
           <ListRow label="Health connections" disabled />
           <ListRow label="Reminders" disabled />
-          <ListRow label="Privacy" disabled />
-          <ListRow label="Export data" disabled />
+          <ListRow label="Privacy" onPress={() => router.push('/privacy')} />
+          <ListRow label="Export data" onPress={() => router.push('/privacy/export')} />
           <ListRow label="Subscription" disabled />
           <ListRow label="Account" disabled />
           <ListRow label="Help and resources" onPress={() => router.push('/safety/resources')} />
