@@ -20,6 +20,15 @@ export default function TodayScreen() {
           <>
             <Text className="mt-1 font-heading text-h3 text-text">Nothing needs attention today</Text>
             <Text className="mt-2 font-body text-body-sm text-neutral-400">Check-in logged.</Text>
+            {/* No experiment/proposal flow wired yet (S-20 needs the
+                pattern engine, which isn't built — Decisions doc §6).
+                This is a temporary way in to S-27 until that lands. */}
+            <Button
+              label="Browse experiment library"
+              variant="ghost"
+              onPress={() => router.push('/library')}
+              className="mt-6 self-start px-0"
+            />
           </>
         ) : (
           <>

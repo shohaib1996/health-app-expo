@@ -41,6 +41,7 @@ function AppShell() {
           name="checkin/saved"
           options={{ presentation: 'transparentModal', animation: 'fade', gestureEnabled: false }}
         />
+        <Stack.Screen name="library/index" options={{ presentation: 'modal' }} />
       </Stack>
     </View>
   );
