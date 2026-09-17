@@ -1,14 +1,15 @@
 import { useMemo, useState } from 'react';
 import { Alert, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 
 import { Button, RatingPoint, TextField } from '@/components/ui';
 import { checkinsRepository } from '@/features/checkins/checkinsRepository';
-import { useTodayCheckIn } from '@/features/checkins/useTodayCheckIn';
+import { useCheckInForDate } from '@/features/checkins/useCheckInForDate';
 import { useVoiceRecorder } from '@/features/checkins/useVoiceRecorder';
 import { guardFreeText } from '@/features/safety/safetyGate';
 import { TAG_CATALOG } from '@/features/tags/tagCatalog';
+import { formatLocalDateLong, todayLocalDate } from '@/lib/localDate';
 
 import { TagGrid } from './TagGrid';
 
@@ -20,18 +21,40 @@ const MAX_TAGS = 3;
  * navigation push, so the 15-second path (mood, Save) never has to
  * mount a second screen.
  *
+ * An optional `date` param turns this into S-32 (backlog entry, up to
+ * 3 days back — checkinsRepository enforces the window): the date is
+ * fixed and shown, everything else is identical. If that day already
+ * has a check-in, its values seed the form (S-31's edit path reuses
+ * this too).
+ *
  * RatingPoint works in 0-4 index space (five glyph slots); mood/energy
  * on the wire and in SQLite are 1-5 (schemas.py: Field(ge=1, le=5)).
  * The +1/-1 conversion happens only at this boundary.
  */
 export default function CheckInScreen() {
-  const { save, saving } = useTodayCheckIn();
+  const { date: dateParam } = useLocalSearchParams<{ date?: string }>();
+  const today = todayLocalDate();
+  const targetDate = dateParam ?? today;
+  const isBacklog = targetDate !== today;
+
+  const { checkIn, save, saving, loading } = useCheckInForDate(targetDate);
   const [step, setStep] = useState<'main' | 'tags' | 'note'>('main');
   const [moodIndex, setMoodIndex] = useState<number | null>(null);
   const [energyIndex, setEnergyIndex] = useState<number | null>(null);
   const [tagKeys, setTagKeys] = useState<string[]>([]);
   const [note, setNote] = useState('');
+  const [seeded, setSeeded] = useState(false);
   const recorder = useVoiceRecorder();
+
+  // Seed once from an existing check-in for this date, never again —
+  // otherwise a background refresh would clobber the user's own edits.
+  if (checkIn && !seeded) {
+    setMoodIndex(checkIn.mood - 1);
+    setEnergyIndex(checkIn.energy !== null ? checkIn.energy - 1 : null);
+    setTagKeys(checkIn.tagKeys);
+    setNote(checkIn.note ?? '');
+    setSeeded(true);
+  }
 
   const canSave = moodIndex !== null;
 
@@ -56,6 +79,10 @@ export default function CheckInScreen() {
         note: note.trim() || null,
         voiceUri: recorder.uri,
       });
+      if (isBacklog) {
+        router.back();
+        return;
+      }
       const nightsLogged = await checkinsRepository.countLoggedNights();
       router.replace({ pathname: '/checkin/saved', params: { nightsLogged: String(nightsLogged) } });
     } catch {
@@ -65,10 +92,15 @@ export default function CheckInScreen() {
 
   const tagCountLabel = useMemo(() => `${tagKeys.length} of ${MAX_TAGS}`, [tagKeys.length]);
 
+  if (loading) return null;
+
+  const dateLabel = isBacklog ? formatLocalDateLong(targetDate) : null;
+
   if (step === 'note') {
     return (
       <SafeAreaView className="flex-1 bg-bg" edges={['top', 'bottom']}>
         <View className="flex-1 px-6 py-6">
+          {dateLabel && <Text className="mb-4 font-body text-caption text-neutral-500">{dateLabel}</Text>}
           <TextField
             label="Anything worth remembering about today?"
             value={note}
@@ -107,6 +139,7 @@ export default function CheckInScreen() {
     return (
       <SafeAreaView className="flex-1 bg-bg" edges={['top', 'bottom']}>
         <View className="flex-1 px-6 py-6">
+          {dateLabel && <Text className="mb-4 font-body text-caption text-neutral-500">{dateLabel}</Text>}
           <Text className="font-heading text-h4 text-text">Anything else tonight?</Text>
           <View className="mt-4 flex-row items-center justify-between">
             <Text className="font-body text-caption text-neutral-500">Pick up to 3</Text>
@@ -130,7 +163,8 @@ export default function CheckInScreen() {
   return (
     <SafeAreaView className="flex-1 bg-bg" edges={['top', 'bottom']}>
       <View className="flex-1 px-6 py-6">
-        <Text className="font-heading text-h4 text-text">How was today?</Text>
+        {dateLabel && <Text className="mb-4 font-body text-caption text-neutral-500">{dateLabel}</Text>}
+        <Text className="font-heading text-h4 text-text">{isBacklog ? 'How was that day?' : 'How was today?'}</Text>
         <View className="mt-4 flex-row gap-2">
           {([0, 1, 2, 3, 4] as const).map((i) => (
             <RatingPoint

@@ -66,6 +66,7 @@ function AppShell() {
         <Stack.Screen name="privacy/export" />
         <Stack.Screen name="privacy/delete" />
         <Stack.Screen name="history/experiments" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="history/day" options={{ presentation: 'modal' }} />
       </Stack>
     </View>
   );

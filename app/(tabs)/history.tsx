@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import { Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 
 import { Button } from '@/components/ui';
-import { useMonthHistory } from '@/features/checkins/useMonthHistory';
+import { BACKLOG_WINDOW_DAYS } from '@/features/checkins/checkinsRules';
 import { moodNeutralStep } from '@/features/checkins/moodColor';
+import { useMonthHistory } from '@/features/checkins/useMonthHistory';
+import { addDaysToLocalDate, todayLocalDate } from '@/lib/localDate';
 
 const WEEKDAYS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 const MONTH_NAMES = [
@@ -50,22 +52,43 @@ export default function HistoryScreen() {
 
         {!loading && (
           <View className="mt-2 flex-row flex-wrap">
-            {cells.map((cell, i) => (
-              <View key={cell.date ?? `blank-${i}`} className="aspect-square w-[14.28%] items-center justify-center">
-                {cell.day !== null && (
-                  <View
-                    className={`h-9 w-9 items-center justify-center rounded-default ${cell.isToday ? 'border border-neutral-600' : ''}`}
-                  >
-                    <Text className={`font-body text-caption ${cell.isToday ? 'text-text' : 'text-neutral-500'}`}>
-                      {cell.day}
-                    </Text>
-                    {cell.mood !== null && (
-                      <View className={`mt-0.5 h-1.5 w-1.5 rounded-full ${DOT_CLASS[moodNeutralStep(cell.mood)]}`} />
-                    )}
-                  </View>
-                )}
-              </View>
-            ))}
+            {cells.map((cell, i) => {
+              const today = todayLocalDate();
+              const backlogCutoff = addDaysToLocalDate(today, -BACKLOG_WINDOW_DAYS);
+              const canBacklog = cell.date !== null && cell.date <= today && cell.date >= backlogCutoff;
+              const onPress =
+                cell.date === null
+                  ? undefined
+                  : cell.mood !== null
+                    ? () => router.push({ pathname: '/history/day', params: { date: cell.date! } })
+                    : canBacklog
+                      ? () => router.push({ pathname: '/checkin', params: { date: cell.date! } })
+                      : undefined;
+
+              return (
+                <Pressable
+                  key={cell.date ?? `blank-${i}`}
+                  disabled={!onPress}
+                  onPress={onPress}
+                  className="aspect-square w-[14.28%] items-center justify-center"
+                >
+                  {cell.day !== null && (
+                    <View
+                      className={`h-9 w-9 items-center justify-center rounded-default ${cell.isToday ? 'border border-neutral-600' : ''}`}
+                    >
+                      <Text className={`font-body text-caption ${cell.isToday ? 'text-text' : 'text-neutral-500'}`}>
+                        {cell.day}
+                      </Text>
+                      {cell.mood !== null ? (
+                        <View className={`mt-0.5 h-1.5 w-1.5 rounded-full ${DOT_CLASS[moodNeutralStep(cell.mood)]}`} />
+                      ) : (
+                        canBacklog && <Text className="mt-0.5 font-body text-caption text-neutral-600">+</Text>
+                      )}
+                    </View>
+                  )}
+                </Pressable>
+              );
+            })}
           </View>
         )}
 
