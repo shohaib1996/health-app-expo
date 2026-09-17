@@ -3,7 +3,7 @@ import { Alert, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router, useLocalSearchParams } from 'expo-router';
 
-import { Button, Card } from '@/components/ui';
+import { Button, Card, VoiceNotePlayer } from '@/components/ui';
 import { checkinsRepository } from '@/features/checkins/checkinsRepository';
 import { useCheckInForDate } from '@/features/checkins/useCheckInForDate';
 import { TAG_CATALOG } from '@/features/tags/tagCatalog';
@@ -81,9 +81,10 @@ export default function DayDetailScreen() {
         )}
 
         {checkIn.voiceUri && (
-          <Text className="mt-4 font-body text-caption text-neutral-500">
-            Voice note recorded (playback not wired up yet)
-          </Text>
+          <View className="mt-4 items-start">
+            <Text className="mb-2 font-body text-caption text-neutral-500">Voice note</Text>
+            <VoiceNotePlayer uri={checkIn.voiceUri} />
+          </View>
         )}
       </View>
 

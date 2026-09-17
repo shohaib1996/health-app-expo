@@ -54,7 +54,7 @@ Working end-to-end (real SQLite/API calls, not mocked):
 | S-81 trial started                           | No real purchase flow exists to trigger it (see S-80)                                                                                                                              |
 | Push notifications                           | `expo-notifications` isn't installed; S-52 persists the user's preferred time but nothing schedules against it                                                                     |
 | Health Connect / HealthKit                   | S-51 is an honest placeholder; no native health SDK integrated                                                                                                                     |
-| On-device audio transcription                | S-13 records real audio (stored, playable-once-wired) but doesn't transcribe it — no STT engine chosen                                                                             |
+| On-device audio transcription                | S-13 records real audio (stored, playable in S-31 via `VoiceNotePlayer`) but doesn't transcribe it — no STT engine chosen                                                          |
 
 ## Conventions established
 

@@ -6,3 +6,4 @@ export * from './HeroNumber';
 export * from './ListRow';
 export * from './RatingPoint';
 export * from './TextField';
+export * from './VoiceNotePlayer';
