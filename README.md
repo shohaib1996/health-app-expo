@@ -32,6 +32,22 @@ npm run android              # or: npm run ios / npm run web
 Android is the primary target (Decisions doc: Android-first launch,
 iOS blocked on Apple's legal-entity requirement for healthcare apps).
 
+## Building with EAS
+
+`eas.json` defines three Android build profiles (`development`,
+`preview` — both APK, internal distribution — and `production`, AAB,
+auto-incrementing version). No iOS profile yet, matching the
+Android-first decision above.
+
+This repo has never run `eas init` — that needs an Expo account login,
+which this session doesn't have. Before the first real build:
+
+```bash
+npx eas login
+npx eas init            # links this project, writes extra.eas.projectId into app.json
+npx eas build --profile preview --platform android
+```
+
 ## Commands
 
 ```bash
