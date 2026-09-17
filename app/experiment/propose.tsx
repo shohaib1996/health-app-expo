@@ -40,7 +40,6 @@ export default function ProposeExperimentScreen() {
 
   useEffect(() => {
     void fetchProposal([]);
-     
   }, []);
 
   const handleSomethingElse = () => {

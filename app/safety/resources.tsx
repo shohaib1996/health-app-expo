@@ -26,8 +26,8 @@ export default function SafetyResourcesScreen() {
         {!loading && error && (
           <View className="mt-6 gap-3">
             <Text className="font-body text-body-sm text-neutral-400">
-              Couldn't load resources for your region. If this is an emergency, contact your local
-              emergency number directly.
+              Couldn't load resources for your region. If this is an emergency, contact your local emergency
+              number directly.
             </Text>
             <Button label="Try again" variant="secondary" onPress={() => void refresh()} />
           </View>

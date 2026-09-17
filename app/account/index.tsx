@@ -65,8 +65,8 @@ export default function AccountScreen() {
         {!loading && isAnonymous && (
           <>
             <Text className="mt-2 font-body text-body-sm text-neutral-400">
-              Your entries stay on this phone only. Sign in to encrypt and copy them to a server so
-              you can restore them — without this, losing the phone means losing everything.
+              Your entries stay on this phone only. Sign in to encrypt and copy them to a server so you can
+              restore them — without this, losing the phone means losing everything.
             </Text>
             <TextField
               label="Email"

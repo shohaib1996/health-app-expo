@@ -9,8 +9,7 @@ const PATTERN_THRESHOLD_NIGHTS = 21; // PRD: ~21 nights minimum before the engin
 const MILESTONES = [7, 14, 21, 30, 60, 90, 180, 365];
 
 export type SavedVariant =
-  | { kind: 'milestone'; nights: number; message: string }
-  | { kind: 'ordinary'; message: string };
+  { kind: 'milestone'; nights: number; message: string } | { kind: 'ordinary'; message: string };
 
 export function pickSavedVariant(nightsLogged: number): SavedVariant {
   if (MILESTONES.includes(nightsLogged)) {

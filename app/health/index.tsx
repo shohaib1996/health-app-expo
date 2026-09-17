@@ -18,8 +18,8 @@ export default function HealthConnectionsScreen() {
       <View className="flex-1 justify-center">
         <Text className="font-heading text-h3 text-text">Health connections</Text>
         <Text className="mt-2 font-body text-body-sm text-neutral-400">
-          Sleep and activity data are not connected yet — this is not wired up to Health Connect or
-          the Health app in this build. Everything works fine entered by hand in the meantime.
+          Sleep and activity data are not connected yet — this is not wired up to Health Connect or the Health
+          app in this build. Everything works fine entered by hand in the meantime.
         </Text>
 
         <View className="mt-6">

@@ -101,9 +101,7 @@ export default function PlanBuilderScreen() {
         />
 
         <View className="mt-6">
-          <Text className="font-body text-body-sm text-neutral-400">
-            For {protocol.durationDays} days.
-          </Text>
+          <Text className="font-body text-body-sm text-neutral-400">For {protocol.durationDays} days.</Text>
           {verdictPreview && (
             <Text className="mt-1 font-body text-body-sm text-neutral-400">
               Verdict: {formatLocalDateLong(verdictPreview)}.

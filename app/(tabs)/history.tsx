@@ -11,8 +11,18 @@ import { addDaysToLocalDate, todayLocalDate } from '@/lib/localDate';
 
 const WEEKDAYS = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
 const MONTH_NAMES = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December',
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ];
 
 const DOT_CLASS: Record<300 | 500 | 700, string> = {
@@ -34,7 +44,9 @@ export default function HistoryScreen() {
   return (
     <SafeAreaView className="flex-1 bg-bg" edges={['top']}>
       <View className="flex-1 px-6 py-6">
-        <Text className="font-heading text-h4 text-text">{MONTH_NAMES[month]} {year}</Text>
+        <Text className="font-heading text-h4 text-text">
+          {MONTH_NAMES[month]} {year}
+        </Text>
 
         <View className="mt-6 flex-row justify-between">
           <SummaryStat label="Nights logged" value={String(nightsLogged)} />
@@ -76,13 +88,19 @@ export default function HistoryScreen() {
                     <View
                       className={`h-9 w-9 items-center justify-center rounded-default ${cell.isToday ? 'border border-neutral-600' : ''}`}
                     >
-                      <Text className={`font-body text-caption ${cell.isToday ? 'text-text' : 'text-neutral-500'}`}>
+                      <Text
+                        className={`font-body text-caption ${cell.isToday ? 'text-text' : 'text-neutral-500'}`}
+                      >
                         {cell.day}
                       </Text>
                       {cell.mood !== null ? (
-                        <View className={`mt-0.5 h-1.5 w-1.5 rounded-full ${DOT_CLASS[moodNeutralStep(cell.mood)]}`} />
+                        <View
+                          className={`mt-0.5 h-1.5 w-1.5 rounded-full ${DOT_CLASS[moodNeutralStep(cell.mood)]}`}
+                        />
                       ) : (
-                        canBacklog && <Text className="mt-0.5 font-body text-caption text-neutral-600">+</Text>
+                        canBacklog && (
+                          <Text className="mt-0.5 font-body text-caption text-neutral-600">+</Text>
+                        )
                       )}
                     </View>
                   )}

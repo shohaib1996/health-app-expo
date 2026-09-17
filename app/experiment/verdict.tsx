@@ -52,7 +52,12 @@ export default function VerdictScreen() {
         </View>
 
         <View className="mt-4">
-          <HeroNumber value={display.heroValue} unit={display.heroUnit} likelyRange={display.likelyRange} role={display.role} />
+          <HeroNumber
+            value={display.heroValue}
+            unit={display.heroUnit}
+            likelyRange={display.likelyRange}
+            role={display.role}
+          />
         </View>
 
         {(verdict.beforeAverage !== null || verdict.duringAverage !== null) && (

@@ -132,11 +132,18 @@ export default function ActiveExperimentScreen() {
         {verdictReady ? (
           <Button
             label="See the verdict"
-            onPress={() => router.push({ pathname: '/experiment/verdict', params: { experimentId: experiment.id } })}
+            onPress={() =>
+              router.push({ pathname: '/experiment/verdict', params: { experimentId: experiment.id } })
+            }
             block
           />
         ) : (
-          <Button label={marking ? 'Saving…' : 'Mark today done'} onPress={handleMarkToday} disabled={marking} block />
+          <Button
+            label={marking ? 'Saving…' : 'Mark today done'}
+            onPress={handleMarkToday}
+            disabled={marking}
+            block
+          />
         )}
         {!showAbandonForm && !verdictReady && (
           <Button

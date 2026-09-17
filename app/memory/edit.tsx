@@ -76,8 +76,19 @@ export default function EditMemoryEntryScreen() {
         )}
       </View>
       <View className="gap-2 pb-4">
-        <Button label={saving ? 'Saving…' : 'Save'} onPress={handleSave} disabled={saving || !text.trim()} block />
-        <Button label={deleting ? 'Forgetting…' : 'Forget this'} variant="ghost" onPress={handleDelete} disabled={deleting} block />
+        <Button
+          label={saving ? 'Saving…' : 'Save'}
+          onPress={handleSave}
+          disabled={saving || !text.trim()}
+          block
+        />
+        <Button
+          label={deleting ? 'Forgetting…' : 'Forget this'}
+          variant="ghost"
+          onPress={handleDelete}
+          disabled={deleting}
+          block
+        />
       </View>
     </SafeAreaView>
   );

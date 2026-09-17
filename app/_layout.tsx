@@ -48,7 +48,6 @@ function AppShell() {
     // that fires after every save — covers rows that failed to push
     // earlier (offline, server down) and never got retried.
     void pushPendingCheckIns();
-     
   }, [fontsLoaded, blockedUnderAge, onboardingCompleted]);
 
   if (!fontsLoaded) return null;

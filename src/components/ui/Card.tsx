@@ -7,9 +7,6 @@ import { cn } from '@/lib/cn';
  * tokens in src/design/tokens.ts. */
 export function Card({ className, ...rest }: ViewProps & { className?: string }) {
   return (
-    <View
-      className={cn('rounded-default border border-neutral-800 bg-surface p-4', className)}
-      {...rest}
-    />
+    <View className={cn('rounded-default border border-neutral-800 bg-surface p-4', className)} {...rest} />
   );
 }

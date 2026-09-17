@@ -31,7 +31,9 @@ export function WelcomeBack({ kind, daysSince, onContinue }: WelcomeBackProps) {
           </>
         ) : (
           <>
-            <Text className="font-heading text-h3 text-text">It's {formatLocalDateLong(todayLocalDate())}.</Text>
+            <Text className="font-heading text-h3 text-text">
+              It's {formatLocalDateLong(todayLocalDate())}.
+            </Text>
             <Text className="mt-3 font-body text-body text-neutral-400">
               Good time to start again. Your past data is still here — nothing was lost.
             </Text>
@@ -39,7 +41,11 @@ export function WelcomeBack({ kind, daysSince, onContinue }: WelcomeBackProps) {
         )}
       </View>
       <View className="pb-6">
-        <Button label={kind === 'short' ? 'Check in' : 'Start tonight’s check-in'} onPress={onContinue} block />
+        <Button
+          label={kind === 'short' ? 'Check in' : 'Start tonight’s check-in'}
+          onPress={onContinue}
+          block
+        />
       </View>
     </SafeAreaView>
   );

@@ -81,7 +81,9 @@ export default function DayDetailScreen() {
         )}
 
         {checkIn.voiceUri && (
-          <Text className="mt-4 font-body text-caption text-neutral-500">Voice note recorded (playback not wired up yet)</Text>
+          <Text className="mt-4 font-body text-caption text-neutral-500">
+            Voice note recorded (playback not wired up yet)
+          </Text>
         )}
       </View>
 
@@ -91,7 +93,13 @@ export default function DayDetailScreen() {
           onPress={() => router.push({ pathname: '/checkin', params: { date: checkIn.localDate } })}
           block
         />
-        <Button label={deleting ? 'Deleting…' : 'Delete'} variant="ghost" onPress={handleDelete} disabled={deleting} block />
+        <Button
+          label={deleting ? 'Deleting…' : 'Delete'}
+          variant="ghost"
+          onPress={handleDelete}
+          disabled={deleting}
+          block
+        />
       </View>
     </SafeAreaView>
   );

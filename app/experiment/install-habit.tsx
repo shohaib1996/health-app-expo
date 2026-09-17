@@ -50,12 +50,9 @@ export default function InstallHabitScreen() {
   return (
     <SafeAreaView className="flex-1 bg-bg px-6" edges={['top', 'bottom']}>
       <View className="flex-1 justify-center">
-        <Text className="font-heading text-h3 text-text">
-          {protocolName} is now part of your routine.
-        </Text>
+        <Text className="font-heading text-h3 text-text">{protocolName} is now part of your routine.</Text>
         <Text className="mt-3 font-body text-body-sm text-neutral-400">
-          You don't need to log this daily any more. How often, if at all, should this check in on
-          you?
+          You don't need to log this daily any more. How often, if at all, should this check in on you?
         </Text>
         <View className="mt-6 flex-row flex-wrap gap-2">
           {FREQUENCIES.map((option) => (

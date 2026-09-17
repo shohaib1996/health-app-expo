@@ -91,7 +91,10 @@ export const checkinsRepository = {
       now,
     );
 
-    const row = await database.getFirstAsync<CheckInRow>('SELECT * FROM check_ins WHERE client_id = ?', clientId);
+    const row = await database.getFirstAsync<CheckInRow>(
+      'SELECT * FROM check_ins WHERE client_id = ?',
+      clientId,
+    );
     if (!row) throw new Error('Check-in upsert did not persist.');
     return rowToCheckIn(row);
   },

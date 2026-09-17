@@ -129,7 +129,12 @@ export default function CheckInScreen() {
           )}
         </View>
         <View className="gap-2 px-6 pb-4">
-          <Button label={saving ? 'Saving…' : 'Save'} onPress={handleSave} disabled={saving || !canSave} block />
+          <Button
+            label={saving ? 'Saving…' : 'Save'}
+            onPress={handleSave}
+            disabled={saving || !canSave}
+            block
+          />
         </View>
       </SafeAreaView>
     );
@@ -153,7 +158,12 @@ export default function CheckInScreen() {
           />
         </View>
         <View className="gap-2 px-6 pb-4">
-          <Button label={saving ? 'Saving…' : 'Save'} onPress={handleSave} disabled={saving || !canSave} block />
+          <Button
+            label={saving ? 'Saving…' : 'Save'}
+            onPress={handleSave}
+            disabled={saving || !canSave}
+            block
+          />
           <Button label="Add note" variant="ghost" onPress={() => setStep('note')} block />
         </View>
       </SafeAreaView>
@@ -164,7 +174,9 @@ export default function CheckInScreen() {
     <SafeAreaView className="flex-1 bg-bg" edges={['top', 'bottom']}>
       <View className="flex-1 px-6 py-6">
         {dateLabel && <Text className="mb-4 font-body text-caption text-neutral-500">{dateLabel}</Text>}
-        <Text className="font-heading text-h4 text-text">{isBacklog ? 'How was that day?' : 'How was today?'}</Text>
+        <Text className="font-heading text-h4 text-text">
+          {isBacklog ? 'How was that day?' : 'How was today?'}
+        </Text>
         <View className="mt-4 flex-row gap-2">
           {([0, 1, 2, 3, 4] as const).map((i) => (
             <RatingPoint
@@ -197,7 +209,12 @@ export default function CheckInScreen() {
       </View>
 
       <View className="gap-2 px-6 pb-4">
-        <Button label={saving ? 'Saving…' : 'Save'} onPress={handleSave} disabled={saving || !canSave} block />
+        <Button
+          label={saving ? 'Saving…' : 'Save'}
+          onPress={handleSave}
+          disabled={saving || !canSave}
+          block
+        />
         <Button label="Add more" variant="ghost" onPress={() => setStep('tags')} block />
       </View>
     </SafeAreaView>

@@ -17,7 +17,14 @@ interface ButtonProps extends Omit<PressableProps, 'children'> {
  * the accent color itself — accent means "the data supports this," and
  * a CTA is a request, not a result (see S-10/S-20 annotations).
  */
-export function Button({ label, variant = 'primary', block, disabled, className, ...rest }: ButtonProps & { className?: string }) {
+export function Button({
+  label,
+  variant = 'primary',
+  block,
+  disabled,
+  className,
+  ...rest
+}: ButtonProps & { className?: string }) {
   const base = 'h-11 items-center justify-center rounded-default border px-4';
   const variantClass =
     variant === 'primary'

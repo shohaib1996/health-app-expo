@@ -40,7 +40,9 @@ async function doPush(): Promise<void> {
     }));
 
     const result = await syncApi.push({ checkIns });
-    const syncedIds = result.checkIns.filter((r) => r.status === 'ok' && r.clientId).map((r) => r.clientId as string);
+    const syncedIds = result.checkIns
+      .filter((r) => r.status === 'ok' && r.clientId)
+      .map((r) => r.clientId as string);
     await checkinsRepository.markSynced(syncedIds);
   } catch {
     // Network down, server unreachable, whatever — the app never

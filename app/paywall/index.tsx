@@ -55,8 +55,8 @@ export default function PaywallScreen() {
         </Card>
 
         <Text className="mt-6 font-body text-body-sm text-neutral-400">
-          21 days free, then $39.99 a year. That's $3.33 a month. Cancel any time in your app
-          store's subscription settings.
+          21 days free, then $39.99 a year. That's $3.33 a month. Cancel any time in your app store's
+          subscription settings.
         </Text>
       </ScrollView>
       <View className="gap-2 px-6 pb-4">

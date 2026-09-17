@@ -42,8 +42,8 @@ export default function NotEnoughDataScreen() {
         )}
 
         <Text className="mt-6 font-body text-body text-neutral-400">
-          Patterns need about three weeks of nights before they mean anything. Anything shorter is
-          guesswork, and this app does not guess.
+          Patterns need about three weeks of nights before they mean anything. Anything shorter is guesswork,
+          and this app does not guess.
         </Text>
 
         {remaining !== null && remaining > 0 && (

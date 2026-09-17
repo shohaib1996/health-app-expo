@@ -22,7 +22,8 @@ export default function ExperimentConfirmedScreen() {
         <Text className="text-center font-heading text-h3 text-text">Your experiment starts today.</Text>
         <Text className="mt-3 text-center font-body text-body text-neutral-400">
           {protocolName ? `${protocolName} — ` : ''}
-          I'll check in each night and tell you on {formatLocalDateLong(verdictDueOn ?? '')} whether it worked.
+          I'll check in each night and tell you on {formatLocalDateLong(verdictDueOn ?? '')} whether it
+          worked.
         </Text>
       </View>
       <View className="pb-4">

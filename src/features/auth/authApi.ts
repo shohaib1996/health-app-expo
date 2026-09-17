@@ -10,8 +10,7 @@ export const authApi = {
   refresh: (payload: RefreshRequest) =>
     apiClient.post<TokenResponse>('/auth/refresh', payload).then((r) => r.data),
 
-  link: (payload: LinkRequest) =>
-    apiClient.post<UserResponse>('/auth/link', payload).then((r) => r.data),
+  link: (payload: LinkRequest) => apiClient.post<UserResponse>('/auth/link', payload).then((r) => r.data),
 
   revokeDevice: (clientDeviceId: string) =>
     apiClient.delete<void>('/auth/device', { params: { clientDeviceId } }).then((r) => r.data),

@@ -55,12 +55,7 @@ export default function TodayScreen() {
         ) : (
           <>
             <Text className="mt-1 font-heading text-h3 text-text">Check in</Text>
-            <Button
-              label="Check in"
-              onPress={() => router.push('/checkin')}
-              block
-              className="mt-6"
-            />
+            <Button label="Check in" onPress={() => router.push('/checkin')} block className="mt-6" />
           </>
         )}
       </View>

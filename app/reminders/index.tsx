@@ -24,8 +24,7 @@ export default function RemindersScreen() {
       <View className="flex-1 justify-center">
         <Text className="font-heading text-h3 text-text">Reminders</Text>
         <Text className="mt-2 font-body text-body-sm text-neutral-400">
-          At most one reminder a day, plus up to three experiment notifications a week. Nothing
-          else, ever.
+          At most one reminder a day, plus up to three experiment notifications a week. Nothing else, ever.
         </Text>
 
         <TextField

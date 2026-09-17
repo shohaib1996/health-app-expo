@@ -74,13 +74,34 @@ module.exports = {
         body: ['Inter_400Regular'],
       },
       fontSize: {
-        h1: [px(type.h1.fontSize), { lineHeight: px(type.h1.lineHeight), letterSpacing: px(type.h1.letterSpacing) }],
-        h2: [px(type.h2.fontSize), { lineHeight: px(type.h2.lineHeight), letterSpacing: px(type.h2.letterSpacing) }],
-        h3: [px(type.h3.fontSize), { lineHeight: px(type.h3.lineHeight), letterSpacing: px(type.h3.letterSpacing) }],
-        h4: [px(type.h4.fontSize), { lineHeight: px(type.h4.lineHeight), letterSpacing: px(type.h4.letterSpacing) }],
-        h5: [px(type.h5.fontSize), { lineHeight: px(type.h5.lineHeight), letterSpacing: px(type.h5.letterSpacing) }],
-        h6: [px(type.h6.fontSize), { lineHeight: px(type.h6.lineHeight), letterSpacing: px(type.h6.letterSpacing) }],
-        hero: [px(type.hero.fontSize), { lineHeight: px(type.hero.lineHeight), letterSpacing: px(type.hero.letterSpacing) }],
+        h1: [
+          px(type.h1.fontSize),
+          { lineHeight: px(type.h1.lineHeight), letterSpacing: px(type.h1.letterSpacing) },
+        ],
+        h2: [
+          px(type.h2.fontSize),
+          { lineHeight: px(type.h2.lineHeight), letterSpacing: px(type.h2.letterSpacing) },
+        ],
+        h3: [
+          px(type.h3.fontSize),
+          { lineHeight: px(type.h3.lineHeight), letterSpacing: px(type.h3.letterSpacing) },
+        ],
+        h4: [
+          px(type.h4.fontSize),
+          { lineHeight: px(type.h4.lineHeight), letterSpacing: px(type.h4.letterSpacing) },
+        ],
+        h5: [
+          px(type.h5.fontSize),
+          { lineHeight: px(type.h5.lineHeight), letterSpacing: px(type.h5.letterSpacing) },
+        ],
+        h6: [
+          px(type.h6.fontSize),
+          { lineHeight: px(type.h6.lineHeight), letterSpacing: px(type.h6.letterSpacing) },
+        ],
+        hero: [
+          px(type.hero.fontSize),
+          { lineHeight: px(type.hero.lineHeight), letterSpacing: px(type.hero.letterSpacing) },
+        ],
         body: [px(type.body.fontSize), { lineHeight: px(type.body.lineHeight) }],
         'body-sm': [px(type.bodySmall.fontSize), { lineHeight: px(type.bodySmall.lineHeight) }],
         caption: [px(type.caption.fontSize), { lineHeight: px(type.caption.lineHeight) }],

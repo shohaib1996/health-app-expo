@@ -42,7 +42,11 @@ export default function ExperimentHistoryScreen() {
         <View className="mt-4 flex-row flex-wrap gap-2">
           <Chip label="All" selected={filter === 'all'} onPress={() => setFilter('all')} />
           <Chip label="Worked" selected={filter === 'worked'} onPress={() => setFilter('worked')} />
-          <Chip label="Didn't work" selected={filter === 'didnt_work'} onPress={() => setFilter('didnt_work')} />
+          <Chip
+            label="Didn't work"
+            selected={filter === 'didnt_work'}
+            onPress={() => setFilter('didnt_work')}
+          />
           <Chip
             label="Inconclusive"
             selected={filter === 'inconclusive'}
@@ -52,7 +56,9 @@ export default function ExperimentHistoryScreen() {
 
         {loading && <Text className="mt-6 font-body text-body-sm text-neutral-400">Loading…</Text>}
         {!loading && error && (
-          <Text className="mt-6 font-body text-body-sm text-neutral-400">Couldn't load your experiments.</Text>
+          <Text className="mt-6 font-body text-body-sm text-neutral-400">
+            Couldn't load your experiments.
+          </Text>
         )}
         {!loading && !error && filtered.length === 0 && (
           <Text className="mt-6 font-body text-body-sm text-neutral-400">
@@ -88,7 +94,9 @@ function ExperimentRow({ item }: { item: ExperimentHistoryItem }) {
       {item.verdictType && (
         <View className="flex-row items-center gap-2">
           <ConfidenceDot role={ROLE_BY_VERDICT[item.verdictType]} />
-          <Text className="font-body text-caption text-neutral-400">{LABEL_BY_VERDICT[item.verdictType]}</Text>
+          <Text className="font-body text-caption text-neutral-400">
+            {LABEL_BY_VERDICT[item.verdictType]}
+          </Text>
         </View>
       )}
     </Pressable>

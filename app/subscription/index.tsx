@@ -25,8 +25,7 @@ export default function SubscriptionScreen() {
         {!loading && entitlement?.tier === 'free' && (
           <>
             <Text className="mt-2 font-body text-body-sm text-neutral-400">
-              You're on the free plan. Daily check-ins, all your history and export are free,
-              always.
+              You're on the free plan. Daily check-ins, all your history and export are free, always.
             </Text>
             <Button label="See what Pro adds" onPress={() => router.push('/paywall')} className="mt-6" />
           </>
@@ -42,8 +41,8 @@ export default function SubscriptionScreen() {
               />
             )}
             <Text className="mt-4 font-body text-caption text-neutral-500">
-              Manage or cancel from your app store's subscription settings — not from within this
-              app, so there's no retention screen in the way.
+              Manage or cancel from your app store's subscription settings — not from within this app, so
+              there's no retention screen in the way.
             </Text>
           </View>
         )}

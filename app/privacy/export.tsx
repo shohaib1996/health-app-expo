@@ -34,19 +34,24 @@ export default function ExportScreen() {
       <View className="flex-1 justify-center">
         <Text className="font-heading text-h3 text-text">Export your data</Text>
         <Text className="mt-2 font-body text-body-sm text-neutral-400">
-          Download everything you have logged, nights, tags, notes, experiments and findings, as
-          JSON and CSV. Free, always.
+          Download everything you have logged, nights, tags, notes, experiments and findings, as JSON and CSV.
+          Free, always.
         </Text>
 
         {job?.status === 'completed' && (
           <Text className="mt-6 font-body text-body-sm text-text">
-            Export ready. In a finished build this hands you a file; for now the job completed on
-            the server (id {job.id.slice(0, 8)}…).
+            Export ready. In a finished build this hands you a file; for now the job completed on the server
+            (id {job.id.slice(0, 8)}…).
           </Text>
         )}
       </View>
       <View className="gap-2 pb-4">
-        <Button label={exporting ? 'Exporting…' : 'Export as JSON and CSV'} onPress={handleExport} disabled={exporting} block />
+        <Button
+          label={exporting ? 'Exporting…' : 'Export as JSON and CSV'}
+          onPress={handleExport}
+          disabled={exporting}
+          block
+        />
         <Button label="Close" variant="ghost" onPress={() => router.back()} block />
       </View>
     </SafeAreaView>

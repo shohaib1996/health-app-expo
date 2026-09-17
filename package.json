@@ -69,7 +69,9 @@
     "test": "jest",
     "typecheck": "tsc --noEmit",
     "export": "cross-env EXPO_UNSTABLE_TREE_SHAKING=1 EXPO_UNSTABLE_METRO_OPTIMIZE_GRAPH=1 expo export",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
   },
   "private": true,
   "jest": {

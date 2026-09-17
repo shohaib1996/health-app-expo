@@ -41,7 +41,9 @@ export default function LibraryScreen() {
                 {group.protocols.map((protocol) => (
                   <Pressable
                     key={protocol.key}
-                    onPress={() => router.push({ pathname: '/experiment/plan', params: { key: protocol.key } })}
+                    onPress={() =>
+                      router.push({ pathname: '/experiment/plan', params: { key: protocol.key } })
+                    }
                   >
                     <Card>
                       <Text className="font-heading text-body text-text">{protocol.name}</Text>
