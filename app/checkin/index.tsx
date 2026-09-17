@@ -4,6 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 
 import { Button, RatingPoint } from '@/components/ui';
+import { checkinsRepository } from '@/features/checkins/checkinsRepository';
 import { useTodayCheckIn } from '@/features/checkins/useTodayCheckIn';
 import { TAG_CATALOG } from '@/features/tags/tagCatalog';
 
@@ -47,7 +48,8 @@ export default function CheckInScreen() {
         energy: energyIndex !== null ? energyIndex + 1 : null,
         tagKeys,
       });
-      router.back();
+      const nightsLogged = await checkinsRepository.countLoggedNights();
+      router.replace({ pathname: '/checkin/saved', params: { nightsLogged: String(nightsLogged) } });
     } catch {
       Alert.alert("Couldn't save", 'That check-in was not saved. Try again.');
     }
