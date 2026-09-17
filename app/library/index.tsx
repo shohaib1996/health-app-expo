@@ -1,4 +1,4 @@
-import { ScrollView, Text, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { router } from 'expo-router';
 
@@ -39,12 +39,17 @@ export default function LibraryScreen() {
               <Text className="font-heading text-h5 text-text">{group.domain}</Text>
               <View className="mt-3 gap-2">
                 {group.protocols.map((protocol) => (
-                  <Card key={protocol.key}>
-                    <Text className="font-heading text-body text-text">{protocol.name}</Text>
-                    <Text className="mt-1 font-body text-caption text-neutral-500">
-                      {protocol.durationDays} days · {protocol.evidenceNote}
-                    </Text>
-                  </Card>
+                  <Pressable
+                    key={protocol.key}
+                    onPress={() => router.push({ pathname: '/experiment/plan', params: { key: protocol.key } })}
+                  >
+                    <Card>
+                      <Text className="font-heading text-body text-text">{protocol.name}</Text>
+                      <Text className="mt-1 font-body text-caption text-neutral-500">
+                        {protocol.durationDays} days · {protocol.evidenceNote}
+                      </Text>
+                    </Card>
+                  </Pressable>
                 ))}
               </View>
             </View>
