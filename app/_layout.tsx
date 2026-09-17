@@ -72,6 +72,7 @@ function AppShell() {
         <Stack.Screen name="account/index" options={{ presentation: 'modal' }} />
         <Stack.Screen name="patterns/index" options={{ presentation: 'modal' }} />
         <Stack.Screen name="pattern/[id]" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="pattern/not-enough-data" options={{ presentation: 'modal' }} />
       </Stack>
     </View>
   );

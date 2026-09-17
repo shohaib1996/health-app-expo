@@ -29,9 +29,17 @@ export default function AllPatternsScreen() {
           <Text className="mt-6 font-body text-body-sm text-neutral-400">Couldn't load patterns.</Text>
         )}
         {!loading && !error && patterns.length === 0 && (
-          <Text className="mt-6 font-body text-body-sm text-neutral-400">
-            Still collecting. Patterns need about three weeks of nights before they mean anything.
-          </Text>
+          <>
+            <Text className="mt-6 font-body text-body-sm text-neutral-400">
+              Still collecting. Patterns need about three weeks of nights before they mean anything.
+            </Text>
+            <Button
+              label="See progress"
+              variant="ghost"
+              onPress={() => router.push('/pattern/not-enough-data')}
+              className="mt-2 self-start px-0"
+            />
+          </>
         )}
 
         {!loading &&
