@@ -42,6 +42,7 @@ function AppShell() {
           options={{ presentation: 'transparentModal', animation: 'fade', gestureEnabled: false }}
         />
         <Stack.Screen name="library/index" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="safety/resources" options={{ presentation: 'modal' }} />
       </Stack>
     </View>
   );

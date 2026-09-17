@@ -1,17 +1,29 @@
-import { Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { router } from 'expo-router';
 
-/** S-50 Settings home — section list (health, reminders, privacy,
- * export, subscription, account, help, about). Placeholder rows. */
+import { ListRow } from '@/components/ui';
+
+/** S-50 Settings home. Only 'Help and resources' (S-58) is wired so
+ * far — the rest are real rows, dimmed, not hidden, so the section
+ * list stays honest about what's built. */
 export default function SettingsScreen() {
   return (
     <SafeAreaView className="flex-1 bg-bg" edges={['top']}>
-      <View className="flex-1 px-6 py-6">
+      <ScrollView className="flex-1 px-6 py-6" showsVerticalScrollIndicator={false}>
         <Text className="font-heading text-h3 text-text">Settings</Text>
-        <Text className="mt-2 font-body text-body-sm text-neutral-400">
-          Health connections, reminders, privacy and account settings land here.
-        </Text>
-      </View>
+
+        <View className="mt-6">
+          <ListRow label="Health connections" disabled />
+          <ListRow label="Reminders" disabled />
+          <ListRow label="Privacy" disabled />
+          <ListRow label="Export data" disabled />
+          <ListRow label="Subscription" disabled />
+          <ListRow label="Account" disabled />
+          <ListRow label="Help and resources" onPress={() => router.push('/safety/resources')} />
+          <ListRow label="About" disabled />
+        </View>
+      </ScrollView>
     </SafeAreaView>
   );
 }

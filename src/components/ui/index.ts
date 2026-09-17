@@ -3,5 +3,6 @@ export * from './Card';
 export * from './Chip';
 export * from './ConfidenceDot';
 export * from './HeroNumber';
+export * from './ListRow';
 export * from './RatingPoint';
 export * from './TextField';
