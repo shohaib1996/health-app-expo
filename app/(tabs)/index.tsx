@@ -4,12 +4,16 @@ import { router } from 'expo-router';
 
 import { Button } from '@/components/ui';
 import { useTodayCheckIn } from '@/features/checkins/useTodayCheckIn';
+import { useActiveExperiment } from '@/features/experiments/useActiveExperiment';
 
 /** S-10 Today — home tab. Only state 1 (check-in not done) and state 6
  * (quiet, done) are wired so far; verdict-due / new-experiment /
- * cold-start-action / experiment-running wait on those modules. */
+ * cold-start-action wait on the pattern engine (Decisions doc §6).
+ * State 5 (experiment running) is approximated with a plain link
+ * rather than the dated strip until that engine exists. */
 export default function TodayScreen() {
   const { checkIn, loading } = useTodayCheckIn();
+  const { hasActive } = useActiveExperiment();
 
   return (
     <SafeAreaView className="flex-1 bg-bg" edges={['top']}>
@@ -23,12 +27,21 @@ export default function TodayScreen() {
             {/* No experiment/proposal flow wired yet (S-20 needs the
                 pattern engine, which isn't built — Decisions doc §6).
                 This is a temporary way in to S-27 until that lands. */}
-            <Button
-              label="Browse experiment library"
-              variant="ghost"
-              onPress={() => router.push('/library')}
-              className="mt-6 self-start px-0"
-            />
+            {hasActive ? (
+              <Button
+                label="View active experiment"
+                variant="ghost"
+                onPress={() => router.push('/experiment/active')}
+                className="mt-6 self-start px-0"
+              />
+            ) : (
+              <Button
+                label="Browse experiment library"
+                variant="ghost"
+                onPress={() => router.push('/library')}
+                className="mt-6 self-start px-0"
+              />
+            )}
           </>
         ) : (
           <>
