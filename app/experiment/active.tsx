@@ -83,6 +83,7 @@ export default function ActiveExperimentScreen() {
     experiment.missedDays === 0
       ? `Day ${experiment.dayNumber} of ${experiment.durationDays}.`
       : `${experiment.keptDays} of ${experiment.dayNumber} so far. That's still enough to learn something.`;
+  const verdictReady = todayLocalDate() >= experiment.verdictDueOn;
 
   return (
     <SafeAreaView className="flex-1 bg-bg" edges={['top', 'bottom']}>
@@ -124,8 +125,16 @@ export default function ActiveExperimentScreen() {
       </ScrollView>
 
       <View className="gap-2 px-6 pb-4">
-        <Button label={marking ? 'Saving…' : 'Mark today done'} onPress={handleMarkToday} disabled={marking} block />
-        {!showAbandonForm && (
+        {verdictReady ? (
+          <Button
+            label="See the verdict"
+            onPress={() => router.push({ pathname: '/experiment/verdict', params: { experimentId: experiment.id } })}
+            block
+          />
+        ) : (
+          <Button label={marking ? 'Saving…' : 'Mark today done'} onPress={handleMarkToday} disabled={marking} block />
+        )}
+        {!showAbandonForm && !verdictReady && (
           <Button
             label="This isn't working for me"
             variant="ghost"
