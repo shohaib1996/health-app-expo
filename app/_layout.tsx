@@ -9,6 +9,7 @@ import { View } from 'react-native';
 import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 
+import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { colors } from '@/design/tokens';
 import { bootstrapAuth } from '@/features/auth/authSlice';
 import { checkinsRepository } from '@/features/checkins/checkinsRepository';
@@ -123,10 +124,12 @@ function AppShell() {
 
 export default function RootLayout() {
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <AppShell />
-      </PersistGate>
-    </Provider>
+    <ErrorBoundary>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <AppShell />
+        </PersistGate>
+      </Provider>
+    </ErrorBoundary>
   );
 }
