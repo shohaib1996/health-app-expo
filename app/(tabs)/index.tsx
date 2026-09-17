@@ -48,6 +48,12 @@ export default function TodayScreen() {
               onPress={() => router.push('/memory')}
               className="mt-2 self-start px-0"
             />
+            <Button
+              label="All patterns"
+              variant="ghost"
+              onPress={() => router.push('/patterns')}
+              className="mt-2 self-start px-0"
+            />
           </>
         ) : (
           <>
