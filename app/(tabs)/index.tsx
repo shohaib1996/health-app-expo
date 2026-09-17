@@ -42,6 +42,12 @@ export default function TodayScreen() {
                 className="mt-6 self-start px-0"
               />
             )}
+            <Button
+              label="What this app knows"
+              variant="ghost"
+              onPress={() => router.push('/memory')}
+              className="mt-2 self-start px-0"
+            />
           </>
         ) : (
           <>
