@@ -43,6 +43,10 @@ function AppShell() {
         />
         <Stack.Screen name="library/index" options={{ presentation: 'modal' }} />
         <Stack.Screen name="safety/resources" options={{ presentation: 'modal' }} />
+        <Stack.Screen
+          name="safety/interstitial"
+          options={{ presentation: 'fullScreenModal', gestureEnabled: false, animation: 'fade' }}
+        />
       </Stack>
     </View>
   );

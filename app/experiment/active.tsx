@@ -6,6 +6,7 @@ import { router } from 'expo-router';
 import { Button, TextField } from '@/components/ui';
 import { experimentsApi } from '@/features/experiments/experimentsApi';
 import { useActiveExperiment } from '@/features/experiments/useActiveExperiment';
+import { guardFreeText } from '@/features/safety/safetyGate';
 import { formatLocalDateLong, todayLocalDate } from '@/lib/localDate';
 
 const DAY_CELL_CLASS: Record<'done' | 'missed' | 'not_yet', string> = {
@@ -42,6 +43,9 @@ export default function ActiveExperimentScreen() {
 
   const handleConfirmAbandon = async () => {
     if (!experiment || !abandonReason.trim()) return;
+    // G-5: crisis detection runs on every free-text input, this field
+    // included. Trip = redirect immediately, never submit the reason.
+    if (guardFreeText(abandonReason)) return;
     setAbandoning(true);
     try {
       await experimentsApi.abandon(experiment.id, { reason: abandonReason.trim() });
