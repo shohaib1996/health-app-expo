@@ -105,6 +105,8 @@ function AppShell() {
         <Stack.Screen name="about/index" options={{ presentation: 'modal' }} />
         <Stack.Screen name="health/index" options={{ presentation: 'modal' }} />
         <Stack.Screen name="reminders/index" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="subscription/index" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="paywall/index" options={{ presentation: 'modal' }} />
       </Stack>
     </View>
   );

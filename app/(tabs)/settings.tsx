@@ -18,7 +18,7 @@ export default function SettingsScreen() {
           <ListRow label="Reminders" onPress={() => router.push('/reminders')} />
           <ListRow label="Privacy" onPress={() => router.push('/privacy')} />
           <ListRow label="Export data" onPress={() => router.push('/privacy/export')} />
-          <ListRow label="Subscription" disabled />
+          <ListRow label="Subscription" onPress={() => router.push('/subscription')} />
           <ListRow label="Account" onPress={() => router.push('/account')} />
           <ListRow label="Help and resources" onPress={() => router.push('/safety/resources')} />
           <ListRow label="About" onPress={() => router.push('/about')} />
